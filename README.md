@@ -8,8 +8,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Installation
 
-Add .env and take all keys from .env-sample file
-
 To install and set up the library, run:
 
 ```sh

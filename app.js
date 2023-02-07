@@ -25,11 +25,11 @@ app.options("*", cors());
 app.use(cors());
 
 const run = async () => {
+  mongoose.set("strictQuery", false);
   await mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  mongoose.set("strictQuery", false);
 };
 run();
 
@@ -52,14 +52,13 @@ app.use(
   })
 );
 
-require("./Routes/index.js")(app);
-
 app.use(function (err, req, res, next) {
   if (err.message)
     res.status(404).json({ status: false, message: err.message });
   else if (err.status === 404) res.status(404).json({ message: "Not found" });
   else res.status(500).json({ message: "Something looks wrong :( !!!" });
 });
+require("./Routes/index.js")(app);
 
 app.listen(process.env.PORT || 4200, function () {
   console.log("Node server listening on port 4200");

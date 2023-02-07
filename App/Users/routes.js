@@ -1,12 +1,21 @@
 const express = require("express");
-const middleware = require("../../Functions/Middlewares");
 const Controller = require("./controller");
+const {
+  authenticateToken,
+  registerUserBodyValidator,
+  existingUserValidator,
+} = require("../../Functions/Middlewares");
 
 const router = express.Router();
 
-router.post("/", Controller.Create);
+router.post(
+  "/",
+  registerUserBodyValidator,
+  existingUserValidator,
+  Controller.Create
+);
 router.post("/login", Controller.Login);
-router.patch("/:id", middleware.authenticateToken, Controller.Update);
-router.delete("/:id", middleware.authenticateToken, Controller.Delete);
+router.patch("/:id", authenticateToken, Controller.Update);
+router.delete("/:id", authenticateToken, Controller.Delete);
 
 module.exports = router;
